@@ -19,6 +19,7 @@ include_directories(${NAIVE_SQL_SRC_INCLUDE_DIR} ${NAIVE_SQL_TEST_INCLUDE_DIR} $
 set(SOURCE
 	${SOURCE}
 	${PROJECT_SOURCE_DIR}/src/fs/page_fs/buffer_manager.cpp
+	${PROJECT_SOURCE_DIR}/src/page/variant_page.cpp
 )
 
 set(HEADERS

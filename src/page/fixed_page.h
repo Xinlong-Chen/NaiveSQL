@@ -33,6 +33,9 @@ public:
     bool underflow() { return size() < capacity() / 2 - 1; }
     bool underflow_if_remove() { return size() < capacity() / 2; }
 
+	/**
+	 * @brief new a page, must init it
+	 */
     void init(int field_size) {
         magic_ref() = PAGE_FIXED;
         field_size_ref()  = field_size;

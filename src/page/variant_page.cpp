@@ -10,7 +10,9 @@
 #define LOAD_BLK(offset) \
         reinterpret_cast<block_header*>(buf + (offset))
 
-
+/**
+ * @brief new a page, must init it
+ */
 void variant_page::init(int) {
     magic_ref()      = PAGE_VARIANT;
     free_block_ref() = 0;
@@ -24,6 +26,7 @@ bool variant_page::insert(int pos, const char* data, int data_size) {
     assert(0 <= pos && pos <= size());
     int real_size = data_size + BLOCK_HEADER_SIZE;
     bool ov = (real_size > PAGE_BLOCK_MAX_SIZE);
+    // PAGE_OV_KEEP_SIZE also include block header, but not solt
     int size_required = ov ? PAGE_OV_KEEP_SIZE : real_size;
     
     // get a block's offset
@@ -101,7 +104,8 @@ char* variant_page::allocate(int sz) {
         return nullptr;
     }
 
-    int head_remain = PAGE_SIZE - (header_size() + size() * slot_size() + tail_max());
+    int head_remain = PAGE_SIZE - (header_size() + size() * slot_size()
+                                    + tail_max());
     auto free_blk   = LOAD_FREEBLK(free_block());
 
     // have too much fragments, page head isn't a large free block

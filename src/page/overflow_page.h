@@ -17,6 +17,9 @@ public:
     static constexpr int header_size() { return 8; }
     static constexpr int block_size()  { return PAGE_SIZE - header_size(); };
 
+    /**
+	 * @brief new a page, must init it
+	 */
     void init() {
         magic_ref() = PAGE_OVERFLOW;
         size_ref()  = 0;

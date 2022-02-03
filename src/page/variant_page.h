@@ -31,13 +31,14 @@ private:
     void defragment();
     void set_freeblock(int offset);
     void erase(int pos, bool is_erase_overflow);
-    
+public:
     // header, data pointer
     std::pair<block_header, char*> get_block(int id) {
         assert(0 <= id && id < size());
         char* addr = buf + slots()[id];
         return { *(block_header*)addr, addr + BLOCK_HEADER_SIZE };
     }
+
 public:
     using general_page::general_page;
 

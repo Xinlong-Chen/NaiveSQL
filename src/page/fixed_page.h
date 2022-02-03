@@ -24,7 +24,7 @@ public:
     PAGE_FIELD_ACCESSER(int32_t, child, children() + id);
 
     static constexpr int header_size() { return 16; }
-    // 4 is ptr size
+    // 4 is child's ptr size
     int capacity()   { return (PAGE_SIZE - header_size()) / (sizeof(T) + 4); }
     bool full()      { return capacity() == size(); }
     bool empty()     { return size() == 0; }
@@ -173,7 +173,7 @@ bool fixed_page<T>::merge(fixed_page page, int cur_id)
 	}
 
 	std::memcpy(children() + size(), page.children(), 4 * page.size());
-	std::memmove(begin() - page.size() * field_size(), begin(), field_size() * page.size());
+	std::memmove(begin() - page.size() * field_size(), begin(), field_size() * size());
 	std::memcpy(end() - page.size() * field_size(), page.begin(), field_size() * page.size());
 	size_ref() += page.size();
 

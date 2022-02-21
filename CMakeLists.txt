@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 
-project(mdb)
+project(NaiveSQL)
 
 option(ENABLE_TEST "Enable test program build" ON)
 
@@ -20,6 +20,7 @@ set(SOURCE
 	${SOURCE}
 	${PROJECT_SOURCE_DIR}/src/fs/page_fs/buffer_manager.cpp
 	${PROJECT_SOURCE_DIR}/src/page/variant_page.cpp
+	${PROJECT_SOURCE_DIR}/src/ds/btree.cpp
 )
 
 set(HEADERS

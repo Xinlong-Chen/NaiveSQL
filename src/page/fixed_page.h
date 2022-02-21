@@ -31,7 +31,7 @@ public:
 
     // use in B+ tree
     bool underflow() { return size() < capacity() / 2 - 1; }
-    bool underflow_if_remove() { return size() < capacity() / 2; }
+    bool underflow_if_remove(int) { return size() < capacity() / 2; }
 
 	/**
 	 * @brief new a page, must init it

@@ -4,7 +4,7 @@
 
 #include "page/overflow_page.h"
 
-#define LOAD_FREEBLK(offset) \ 
+#define LOAD_FREEBLK(offset) \
         reinterpret_cast<free_block_header*>(buf + (offset))
 
 #define LOAD_BLK(offset) \

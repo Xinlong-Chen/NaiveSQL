@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.0)
 
 project(NaiveSQL)
 
-option(ENABLE_TEST "Enable test program build" ON)
+option(ENABLE_TEST "Enable test program build" OFF)
 
 # add_subdirectory(src/parser)
 
@@ -22,17 +22,18 @@ set(SOURCE
 	${PROJECT_SOURCE_DIR}/src/NaiveSQL/fs/page_fs/buffer_manager.cpp
 	${PROJECT_SOURCE_DIR}/src/NaiveSQL/page/variant_page.cpp
 	${PROJECT_SOURCE_DIR}/src/NaiveSQL/ds/btree.cpp
+	${PROJECT_SOURCE_DIR}/src/NaiveSQL/runner.cpp
+	${PROJECT_SOURCE_DIR}/src/NaiveSQL/sql_runner.cpp
 )
 
 set(HEADERS
 	${HEADERS}
 )
 
-add_library(${CMAKE_PROJECT_NAME}_lib ${SOURCE} ${HEADERS})
-add_executable(${CMAKE_PROJECT_NAME} src/NaiveSQL.cpp)
+add_executable(${CMAKE_PROJECT_NAME} src/NaiveSQL.cpp ${SOURCE} ${HEADERS})
+target_link_libraries(${CMAKE_PROJECT_NAME} readline)
 target_link_libraries (${CMAKE_PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/lib/libsqlparser.so)
 
-target_link_libraries(${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_NAME}_lib)
 
 if (ENABLE_TEST)
 	add_subdirectory(third_party/googletest)

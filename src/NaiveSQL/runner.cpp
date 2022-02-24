@@ -5,7 +5,7 @@
 
 #include "sql_runner.h"
 
-#include "sql-parser/src/sql/DbStatement.h"
+#include "sql-parser/src/sql/DBStatement.h"
 
 void Runner::createDB(std::string dbname)
 {
@@ -23,6 +23,7 @@ void Runner::createDB(std::string dbname)
 
 void Runner::useDB(std::string dbname)
 {
+    printf ("use db\n");
     auto filename = getFileName(dbname);
     if (access(filename.c_str(), R_OK | W_OK))
     {
@@ -36,6 +37,7 @@ void Runner::useDB(std::string dbname)
 
 void Runner::dropDB(std::string dbname)
 {
+    printf ("drop db\n");
     auto filename = getFileName(dbname);
     if (dbname == this->dbname)
     {
@@ -47,19 +49,19 @@ void Runner::dropDB(std::string dbname)
 
 void Runner::run(const hsql::SQLStatement *stmt)
 {
-    if (stmt->isType(hsql::kStmtDb))
+    if (stmt->isType(hsql::kStmtDB))
     {
-        const auto *db_stmt = static_cast<const hsql::DbStatement *>(stmt);
+        const auto *db_stmt = static_cast<const hsql::DBStatement *>(stmt);
         switch (db_stmt->type)
         {
         case hsql::kCreateDB:
-            this->createDB(db_stmt->dbname);
+            this->createDB(db_stmt->schema);
             break;
         case hsql::kDropDB:
-            this->dropDB(db_stmt->dbname);
+            this->dropDB(db_stmt->schema);
             break;
         case hsql::kUseDB:
-            this->useDB(db_stmt->dbname);
+            this->useDB(db_stmt->schema);
             break;
         default:
             // printf()

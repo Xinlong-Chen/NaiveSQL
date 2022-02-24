@@ -6,16 +6,16 @@
 // Note: Implementations of constructors and destructors can be found in statements.cpp.
 namespace hsql {
 
-enum DbType { kCreateDB, kUseDB, kDropDB };
+enum DBType { kUseDB, kCreateDB, kDropDB };
 
-// Represents SQL db statements.
-// Example "create table xxx;"
-struct DbStatement : SQLStatement {
-  DbStatement(DbType type);
-  ~DbStatement() override;
+// Represents SQL DB statements.
+// Example "use xxx;"
+struct DBStatement : SQLStatement {
+  DBStatement(DBType type);
+  ~DBStatement() override;
 
-  DbType type;
-  char* dbname;
+  DBType type;
+  char* schema;
 };
 
 }  // namespace hsql

@@ -15,7 +15,7 @@ INSTALL     = /usr/local
 # Set compile mode to -g or -O3.
 # Debug mode: make mode=debug
 
-mode ?= release
+mode ?= debug
 MODE_LOG = ""
 OPT_FLAG =
 ifeq ($(mode), debug)

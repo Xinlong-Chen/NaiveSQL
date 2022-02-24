@@ -115,10 +115,10 @@
   hsql::PrepareStatement* prep_stmt;
   hsql::SelectStatement* select_stmt;
   hsql::ShowStatement* show_stmt;
+  hsql::DBStatement* db_stmt;
   hsql::SQLStatement* statement;
   hsql::TransactionStatement* transaction_stmt;
   hsql::UpdateStatement* update_stmt;
-  hsql::DbStatement* db_stmt;
 
   hsql::Alias* alias_t;
   hsql::AlterAction* alter_action_t;
@@ -183,11 +183,11 @@
     /* SQL Keywords */
     %token DEALLOCATE PARAMETERS INTERSECT TEMPORARY TIMESTAMP
     %token DISTINCT NVARCHAR RESTRICT TRUNCATE ANALYZE BETWEEN
-    %token CASCADE COLUMNS CONTROL DEFAULT EXECUTE EXPLAIN DATABASE USE
+    %token CASCADE COLUMNS CONTROL DEFAULT EXECUTE EXPLAIN
     %token INTEGER NATURAL PREPARE PRIMARY SCHEMAS CHARACTER_VARYING REAL DECIMAL SMALLINT
     %token SPATIAL VARCHAR VIRTUAL DESCRIBE BEFORE COLUMN CREATE DELETE DIRECT
     %token DOUBLE ESCAPE EXCEPT EXISTS EXTRACT CAST FORMAT GLOBAL HAVING IMPORT
-    %token INSERT ISNULL OFFSET RENAME SCHEMA SELECT SORTED
+    %token INSERT ISNULL OFFSET RENAME SCHEMA SELECT SORTED USE
     %token TABLES UNIQUE UNLOAD UPDATE VALUES AFTER ALTER CROSS
     %token DELTA FLOAT GROUP INDEX INNER LIMIT LOCAL MERGE MINUS ORDER
     %token OUTER RIGHT TABLE UNION USING WHERE CALL CASE CHAR COPY DATE DATETIME
@@ -333,10 +333,10 @@ statement : prepare_statement opt_hints {
   $$ = $1;
   $$->hints = $2;
 }
+| db_statement { $$ = $1; }
 | show_statement { $$ = $1; }
 | import_statement { $$ = $1; }
-| export_statement { $$ = $1; } 
-| db_statement {$$ = $1; };
+| export_statement { $$ = $1; };
 
 preparable_statement : select_statement { $$ = $1; }
 | create_statement { $$ = $1; }
@@ -474,25 +474,27 @@ show_statement : SHOW TABLES { $$ = new ShowStatement(kShowTables); }
   $$ = new ShowStatement(kShowColumns);
   $$->schema = $2.schema;
   $$->name = $2.name;
-};
+}
+;
 
 /******************************
- * Db Statement
- * create database xxx;
+ * DB Statement
+ * use db;
  ******************************/
-db_statement : CREATE DATABASE IDENTIFIER { 
-  $$ = new DbStatement(kCreateDB); 
-  $$->dbname = $3;
-}
-| DROP DATABASE IDENTIFIER { 
-  $$ = new DbStatement(kDropDB); 
-  $$->dbname = $3;
-}
-| USE IDENTIFIER {
-  $$ = new DbStatement(kUseDB);
-  $$->dbname = $2;
-}
 
+db_statement : USE IDENTIFIER {
+  $$ = new DBStatement(kUseDB);
+  $$->schema = $2;
+}
+| CREATE SCHEMA IDENTIFIER {
+  $$ = new DBStatement(kCreateDB);
+  $$->schema = $3;
+}
+| DROP SCHEMA IDENTIFIER {
+  $$ = new DBStatement(kDropDB);
+  $$->schema = $3;
+}
+;
 
 /******************************
  * Create Statement

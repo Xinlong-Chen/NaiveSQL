@@ -69,6 +69,7 @@ int main(int argc, char *argv[])
 
         if (!result.isValid()) {
             std::cerr << "Syntax error." << std::endl;
+            std::cerr << sql << std::endl;
             continue;
         }
         if (result.size() == 0) {

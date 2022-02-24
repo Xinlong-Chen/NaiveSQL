@@ -241,19 +241,19 @@ InsertStatement::~InsertStatement() {
   }
 }
 
-// DbStatement
-DbStatement::DbStatement(DbType type) : SQLStatement(kStmtDb), type(type), dbname(nullptr) {}
-
-DbStatement::~DbStatement() {
-  free(dbname);
-}
-
 // ShowStatament
 ShowStatement::ShowStatement(ShowType type) : SQLStatement(kStmtShow), type(type), schema(nullptr), name(nullptr) {}
 
 ShowStatement::~ShowStatement() {
   free(schema);
   free(name);
+}
+
+// DBStatement
+DBStatement::DBStatement(DBType type) : SQLStatement(kStmtDB), type(type), schema(nullptr){}
+
+DBStatement::~DBStatement() {
+  free(schema);
 }
 
 // SelectStatement.h

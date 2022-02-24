@@ -4,7 +4,7 @@
 #include <memory>
 #include <type_traits>
 
-#include "common/comparer.h"
+#include "utils/comparer.h"
 #include "page/pager.h"
 #include "page/fixed_page.h"
 #include "page/data_leaf_page.h"

@@ -4,6 +4,8 @@
 
 #include <readline/readline.h>
 #include <readline/history.h>
+
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 
@@ -48,9 +50,12 @@ int main(int argc, char *argv[])
 {
 
     std::string db_dir = "NaiveSQL.db";
+    if(access(db_dir.c_str(), F_OK) < 0 ){
+        mkdir(db_dir.c_str(), W_OK | R_OK | X_OK);
+    }
     auto runner = std::make_unique<Runner>(db_dir);
 
-    while(true) {
+    while (true) {
         std::string sql = read_sql();
         if(sql.size() == 0) break;
 

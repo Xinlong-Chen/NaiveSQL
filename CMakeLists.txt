@@ -32,7 +32,7 @@ set(HEADERS
 
 add_executable(${CMAKE_PROJECT_NAME} src/NaiveSQL.cpp ${SOURCE} ${HEADERS})
 target_link_libraries(${CMAKE_PROJECT_NAME} readline)
-target_link_libraries (${CMAKE_PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/lib/libsqlparser.so)
+target_link_libraries(${CMAKE_PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/lib/libsqlparser.so)
 
 
 if (ENABLE_TEST)

@@ -1,9 +1,9 @@
-#ifndef __TRIVIALDB_BTREE_ITERATOR__
-#define __TRIVIALDB_BTREE_ITERATOR__
+#pragma once
+
+#include <utility>
 
 #include "btree.h"
 #include "common_defs.h"
-#include <utility>
 
 template<typename PageType>
 class btree_iterator
@@ -16,8 +16,7 @@ private:
 	void load_info(int p)
 	{
 		pid = p;
-		if(p)
-		{
+		if (p) {
 			PageType page { pg->read(p), pg };
 			assert(page.magic() == PAGE_VARIANT || page.magic() == PAGE_INDEX_LEAF);
 			cur_size = page.size();
@@ -37,31 +36,24 @@ public:
 	pager *get_pager() { return pg; }
 	value_t get() { return { pid, pos }; }
 	value_t operator * () { return get(); }
-	value_t next()
-	{
+	value_t next() {
 		assert(pid);
-		if(++pos == cur_size)
-		{
+		if (++pos == cur_size) {
 			load_info(next_pid);
 			pos = 0;
 		}
-
 		return get();
 	}
 	
 	value_t prev()
 	{
 		assert(pid);
-		if(pos-- == 0)
-		{
+		if (pos-- == 0) {
 			load_info(prev_pid);
 			pos = cur_size - 1;
 		}
-
 		return get();
 	}
 
 	bool is_end() { return pid == 0; }
 };
-
-#endif

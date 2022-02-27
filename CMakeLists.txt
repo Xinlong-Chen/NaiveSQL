@@ -6,9 +6,13 @@ option(ENABLE_TEST "Enable test program build" OFF)
 
 # add_subdirectory(src/parser)
 
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_BINARY_DIR build)
 set(EXECUTABLE_OUTPUT_PATH build)
+
+IF (CMAKE_BUILD_TYPE STREQUAL Debug)
+    ADD_DEFINITIONS(-DNAIVEDEBUG)
+ENDIF()
 
 set(NAIVE_SQL_SRC_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/NaiveSQL)
 set(NAIVE_SQL_TEST_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/test)
@@ -25,6 +29,8 @@ set(SOURCE
 	${PROJECT_SOURCE_DIR}/src/NaiveSQL/catalogs/catalogs.cpp
 	${PROJECT_SOURCE_DIR}/src/NaiveSQL/runner.cpp
 	${PROJECT_SOURCE_DIR}/src/NaiveSQL/sql_runner.cpp
+	${PROJECT_SOURCE_DIR}/src/NaiveSQL/common/logger.cpp
+	${PROJECT_SOURCE_DIR}/src/NaiveSQL/common/timestamp.cpp
 )
 
 set(HEADERS

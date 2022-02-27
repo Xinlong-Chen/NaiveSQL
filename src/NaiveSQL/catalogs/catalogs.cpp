@@ -6,7 +6,9 @@
 #include <fstream>
 #include <string>
 
-    
+#include "common/common.h"
+#include "common/logger.h"
+
 catalogs::~catalogs() {
     if (is_opened()) {
         close();
@@ -20,10 +22,9 @@ void catalogs::use(const std::string db_name) {
         }
         close();
     }
-    std::string filename = getDBCatalogFileName(db_name);
+    std::string filename = naivesql::getDBCatalogFileName(basedir, db_name);;
     std::ifstream ifs(filename, std::ios::binary);
     ifs.read((char*)&info, sizeof(info));
-    printf ("use %s\n",info.db_name);
     // TODO: open table manager
 
     opened = true;
@@ -74,11 +75,11 @@ void catalogs::drop_db_helper(const std::string db_name) {
     info.table_num = 0;
 
     // remove header
-    std::string filename = getDBCatalogFileName(db_name);
-    printf("remove file: %s\n", filename.c_str());
+    
+    std::string filename = naivesql::getDBCatalogFileName(basedir, db_name);;
     
     if (std::remove(filename.c_str()) != 0) {
-        printf ("remove error");
+        LOG_ERROR("remove %s fail", filename.c_str());
     }
 }
 
@@ -95,7 +96,7 @@ void catalogs::close() {
 
 void catalogs::flush_header() {
     assert(is_opened());
-    std::string filename = getDBCatalogFileName(info.db_name);
+    std::string filename = naivesql::getDBCatalogFileName(basedir, info.db_name);
     std::ofstream ofs(filename, std::ios::binary);
     ofs.write((char*)&info, sizeof(info));
 }

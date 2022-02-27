@@ -46,20 +46,6 @@ private:
 private:
     catalogs() : opened(false) { }
     
-    // attention: exits a cast !
-    std::string getDBCatalogFileName(const std::string db)
-    {
-        return basedir + "/" + db + ".naivesql";
-    }
-
-    std::string getTableDefFileName(const std::string db, const std::string table_name) {
-        return basedir + "/" + db + "_" + table_name + ".def";
-    }
-
-    std::string getTableDataFileName(const std::string db, const std::string table_name) {
-        return basedir + "/" + db + "_" + table_name + ".data";
-    }
-
 public:
     static catalogs* get_instance() {
         static catalogs db;

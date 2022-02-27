@@ -3,19 +3,21 @@
 #include <iostream>
 #include <unistd.h>
 
+#include "common/logger.h"
+
 #include "sql_runner.h"
 #include "catalogs/catalogs.h"
 
 #include "sql-parser/src/sql/DBStatement.h"
 
 void Runner::createDB(std::string dbname)
-{
-    catalogs::get_instance()->create(dbname.c_str());
+{    
+    catalogs::get_instance()->create(dbname);
 }
 
 void Runner::useDB(std::string dbname)
 {
-    catalogs::get_instance()->use(dbname.c_str());
+    catalogs::get_instance()->use(dbname);
 }
 
 void Runner::dropDB(std::string dbname)

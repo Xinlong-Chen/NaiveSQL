@@ -19,3 +19,10 @@
 #define PAGE_INDEX_LEAF            0x4947
 #define PAGE_VARIANT               0x4156
 #define PAGE_OVERFLOW              0x564f
+
+/* database info */
+#define MAX_TABLE_NUM              32
+
+/* table info */
+#define MAX_COL_NUM                32
+#define MAX_NAME_LEN               64

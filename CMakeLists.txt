@@ -22,6 +22,7 @@ set(SOURCE
 	${PROJECT_SOURCE_DIR}/src/NaiveSQL/fs/page_fs/buffer_manager.cpp
 	${PROJECT_SOURCE_DIR}/src/NaiveSQL/page/variant_page.cpp
 	${PROJECT_SOURCE_DIR}/src/NaiveSQL/ds/btree.cpp
+	${PROJECT_SOURCE_DIR}/src/NaiveSQL/catalogs/catalogs.cpp
 	${PROJECT_SOURCE_DIR}/src/NaiveSQL/runner.cpp
 	${PROJECT_SOURCE_DIR}/src/NaiveSQL/sql_runner.cpp
 )

@@ -9,7 +9,9 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 
+#include "catalogs/catalogs.h"
 #include "runner.h"
+
 
 #include "sql-parser/src/SQLParser.h"
 
@@ -53,6 +55,8 @@ int main(int argc, char *argv[])
     if(access(db_dir.c_str(), F_OK) < 0 ){
         mkdir(db_dir.c_str(), W_OK | R_OK | X_OK);
     }
+    catalogs::get_instance()->init(db_dir);
+    
     auto runner = std::make_unique<Runner>(db_dir);
 
     while (true) {

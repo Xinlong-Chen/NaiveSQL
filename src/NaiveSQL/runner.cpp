@@ -4,47 +4,23 @@
 #include <unistd.h>
 
 #include "sql_runner.h"
+#include "catalogs/catalogs.h"
 
 #include "sql-parser/src/sql/DBStatement.h"
 
 void Runner::createDB(std::string dbname)
 {
-    auto filename = getFileName(dbname);
-    if (access(filename.c_str(), R_OK | W_OK) == 0)
-    {
-        // Database exists
-        return;
-    }
-    printf("create db: %s; filename\n", dbname.c_str(), filename.c_str());
-    this->dbname = dbname;
-    page_io = std::make_unique<page_file>(filename.c_str());
-    sql_runner = std::make_unique<SQLRunner>(*page_io);
+    catalogs::get_instance()->create(dbname.c_str());
 }
 
 void Runner::useDB(std::string dbname)
 {
-    printf ("use db\n");
-    auto filename = getFileName(dbname);
-    if (access(filename.c_str(), R_OK | W_OK))
-    {
-        // Database not exists
-        return;
-    }
-    this->dbname = dbname;
-    page_io = std::make_unique<page_file>(filename.c_str());
-    sql_runner = std::make_unique<SQLRunner>(*page_io);
+    catalogs::get_instance()->use(dbname.c_str());
 }
 
 void Runner::dropDB(std::string dbname)
 {
-    printf ("drop db\n");
-    auto filename = getFileName(dbname);
-    if (dbname == this->dbname)
-    {
-        sql_runner = nullptr;
-        page_io = nullptr;
-    }
-    unlink(filename.c_str());
+    catalogs::get_instance()->drop(dbname);
 }
 
 void Runner::run(const hsql::SQLStatement *stmt)
